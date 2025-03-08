@@ -65,3 +65,15 @@ Build docker image and push to docker hub
  docker run -p 80:80 lemon-api:latest
  docker push sdbaner/lemon-api:latest 
 ```
+
+Create helm charts
+```
+ helm create lemon-api-charts
+```
+
+Validate helm charts
+```
+helm lint lemon-api-charts
+```
+
+

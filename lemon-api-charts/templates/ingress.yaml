@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app: {{ .Chart.Name }}
+    env: {{ .Values.env }}
+  namespace: {{ .Release.Namespace }}
+  name: {{ .Release.Name }}-ingress
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /alive
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    kubernetes.io/ingress.class: alb
+spec:
+  rules:
+  - host: {{ .Values.ingress.host }}  # Optional: Define host if needed
+    http:
+      paths:
+        - path: /hello
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ .Release.Name }}-service 
+              port:
+                number: 80
+        - path: /ready
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ .Release.Name }}-service  # Should be same service
+              port:
+                number: 80
+        - path: /alive
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ .Release.Name }}-service  # Should be same service
+              port:
+                number: 80
