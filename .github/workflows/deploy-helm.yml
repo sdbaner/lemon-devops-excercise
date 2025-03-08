@@ -2,8 +2,12 @@ name: Deploy Helm Chart
 
 on:
   #push:
-    #branches:
-     # - main
+    #branches: [ main ]
+    #paths-ignore:
+    #  - 'kubernetes/deployment.yaml' 
+  #pull_request:
+    # branches: [ main ]
+
   workflow_dispatch:
     inputs:
       environment:
@@ -50,4 +54,4 @@ jobs:
           config-files: ${{ env.VALUES_FILE }}
           chart-path: lemon-api-charts/
           namespace: ${{ env.NAMESPACE }}
-          name: myrelease
+          name: v1

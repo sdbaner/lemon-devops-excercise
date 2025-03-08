@@ -7,7 +7,7 @@ metadata:
     app: {{ .Chart.Name }}
     env: {{ .Values.env }}
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - port: 80
       targetPort: http
