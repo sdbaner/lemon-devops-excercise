@@ -1,12 +1,12 @@
 name: Deploy Helm Chart
 
 on:
-  #push:
-    #branches: [ main ]
-    #paths-ignore:
-    #  - 'kubernetes/deployment.yaml' 
-  #pull_request:
-    # branches: [ main ]
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'lemon-api-charts/templates/deployment.yaml' 
+  pull_request:
+    branches: [ main ]
 
   workflow_dispatch:
     inputs:

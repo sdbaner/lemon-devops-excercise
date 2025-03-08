@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}-network-policy
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Chart.Name }}
+    env: {{ .Values.env }}
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+      env: {{ .Values.env }}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: {{ .Chart.Name }}
+              app: {{ .Values.env }}  # Allowing only ingress traffic
+      ports:
+        - protocol: TCP
+          port: 80
