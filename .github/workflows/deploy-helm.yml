@@ -1,0 +1,53 @@
+name: Deploy Helm Chart
+
+on:
+  #push:
+    #branches:
+     # - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Choose Environment (dev/qa/prod)"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - qa
+          - prod
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Environment Variables
+        id: set-env
+        run: |
+          if [ "${{ github.event.inputs.environment }}" == "dev" ]; then
+            echo "CLUSTER_NAME=mycluster-dev" >> $GITHUB_ENV
+            echo "VALUES_FILE=lemon-api-charts/values/dev.yaml" >> $GITHUB_ENV
+            echo "NAMESPACE=dev" >> $GITHUB_ENV
+          elif [ "${{ github.event.inputs.environment }}" == "qa" ]; then
+            echo "CLUSTER_NAME=mycluster-qa" >> $GITHUB_ENV
+            echo "VALUES_FILE=lemon-api-charts/values/qa.yaml" >> $GITHUB_ENV
+            echo "NAMESPACE=qa" >> $GITHUB_ENV
+          elif [ "${{ github.event.inputs.environment }}" == "prod" ]; then
+            echo "CLUSTER_NAME=mycluster-prod" >> $GITHUB_ENV
+            echo "VALUES_FILE=lemon-api-charts/values/prod.yaml" >> $GITHUB_ENV
+            echo "NAMESPACE=prod" >> $GITHUB_ENV
+          fi
+
+      - name: Deploy Helm
+        uses: bitovi/github-actions-deploy-eks-helm@v1.2.12
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-central-1
+          cluster-name: ${{ env.CLUSTER_NAME }}
+          config-files: ${{ env.VALUES_FILE }}
+          chart-path: lemon-api-charts/
+          namespace: ${{ env.NAMESPACE }}
+          name: myrelease
