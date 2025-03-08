@@ -28,15 +28,15 @@ jobs:
         run: |
           if [ "${{ github.event.inputs.environment }}" == "dev" ]; then
             echo "CLUSTER_NAME=mycluster-dev" >> $GITHUB_ENV
-            echo "VALUES_FILE=lemon-api-charts/values/dev.yaml" >> $GITHUB_ENV
+            echo "VALUES_FILE=lemon-api-charts/values-dev.yaml" >> $GITHUB_ENV
             echo "NAMESPACE=dev" >> $GITHUB_ENV
           elif [ "${{ github.event.inputs.environment }}" == "qa" ]; then
             echo "CLUSTER_NAME=mycluster-qa" >> $GITHUB_ENV
-            echo "VALUES_FILE=lemon-api-charts/values/qa.yaml" >> $GITHUB_ENV
+            echo "VALUES_FILE=lemon-api-charts/values-qa.yaml" >> $GITHUB_ENV
             echo "NAMESPACE=qa" >> $GITHUB_ENV
           elif [ "${{ github.event.inputs.environment }}" == "prod" ]; then
             echo "CLUSTER_NAME=mycluster-prod" >> $GITHUB_ENV
-            echo "VALUES_FILE=lemon-api-charts/values/prod.yaml" >> $GITHUB_ENV
+            echo "VALUES_FILE=lemon-api-charts/values-prod.yaml" >> $GITHUB_ENV
             echo "NAMESPACE=prod" >> $GITHUB_ENV
           fi
 
