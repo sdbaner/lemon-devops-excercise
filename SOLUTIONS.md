@@ -101,8 +101,20 @@ Create helm charts and validate
 
 
 # Terraform
-Terraform folder creates EKS on AWS using Terraform.
+- Terraform folder creates EKS on AWS using Terraform.
+- The setup uses terraform modules for AWS VPC , EKS and ALB (to be defined)
+- Github action for manually deploying the infrastructure
 
 
 ## Best practices
-- 
+- Use modules, wherever possible, to avoid repeatations and maintain upgrades/versions.
+- Use remote backend to store state file to enable collaboration and state locking.
+- Maintain versioning of state file to prevent accidental loss.
+- Leverage IAM roles and policies with least privilege access for Terraform execution and EKS access.
+- Implement tagging across all AWS resources to improve management and cost tracking.
+- Define security groups properly to restrict access to EKS nodes and application workloads.
+- Use Terraform workspaces or directory-based separation for different environments (dev, qa, prod).
+
+### ToDo 
+- Use aws role `terraform-provisioner` to deploy terraform resources to ensure reliabilty and security. This aws role should have programmatic access to all create/access/delete the required resources only. Due to time constraints , I have used the root account to provision the infrastructure which is not a good practice.
+- Use separate variable files for different environments.
