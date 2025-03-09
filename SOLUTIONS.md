@@ -20,21 +20,25 @@ Develop high available and scalable API with kubernetes manifests file
   * new features/complexities
   * Increase in content/data volume
   * expand application in geo locations
-- Considering there are three different eks clusters for production grade application.
+- Considering there are three different eks clusters (dev, staging and live) for production grade application.
 
 
 
-### How do I ensure High Availabilty
+### How do I ensure High Availabilty ( which has been implemented)
 - Define Pod disruption budgets to meet SLA.
 - Define Priority classes to ensure pods get priority during scheduling.
-- Deploy the application in multiple cloud regions to reduce latency and improve redundancy.
 - Deploy the eks/vpc with multiple availabilty zones.
 
+#### Further enhancements that can be made (not yet implemented)
+- Deploy the application in multiple cloud regions to reduce latency and improve redundancy.(have not implemented but good to have)
 
-### How do I ensure Scalabilty
+
+### How do I ensure Scalabilty ( which has been implemented)
 - Define Horizontal pod autoscaler to add replicas when it reaches a certain cpu/memory threshold
-- Combine HPA with Cluster Autoscaler to scale nodes dynamically. This is useful in situations when HPA scales but nodes are full.
 - Implement Load balancing to distribute traffic across multiple servers to ensure no single server becomes bottleneck.
+
+#### Further enhancements that can be made (not yet implemented)
+- Combine HPA with Cluster Autoscaler to scale nodes dynamically. This is useful in situations when HPA scales but nodes are full.
 - Caching is a technique to store frequently accessed data in-memory (like redis) to reduce the load on the server or database.
 - CDN distributes static assets (images, videos, etc.) closer to users. This can reduce latency and result in faster load times.
 
@@ -43,30 +47,33 @@ Develop high available and scalable API with kubernetes manifests file
 - health checks
 - liveliness probe
 - readiness probe
-- monitoring/alerting
+- monitoring/alerting (yet to be implemented)
 
-### Cost optimization
+### Cost optimization (further enhancements)
 - Use serverless fargate for eks deployment
 
-## Best practices for designing application
+## Best practices for designing application (which has been implemented)
 - Use Ingress to expose services. This is safe, provides host/path based routing, load balancing and cost effective.
-- Use service mesh like Istio to handle circuit breaking, retries and security.
 - Apply resource requests and limits to avoid OOMkills and CPU throttling.
 - Apply readiness probe to check if container is ready to accept traffic.
 - Apply liveliness probe to check if the container is responsive.
-- Deploying application in proper namespace to provide isolation.
-- Use RBAC to grant the minimum permissions needed to users, pods, and services.
 - Define network policies to restrict pod to pod communication.
+- Deploying application in proper namespace to provide isolation.
 - Always use multi-stage builds in docker, shrink container sizes by removing unnecessary files before deploying to production.
+
+### Best practices for designing application (yet to be implemented) 
+- Use service mesh like Istio to handle circuit breaking, retries and security.
+- Use RBAC to grant the minimum permissions needed to users, pods, and services.
 - Setup proper observabilty to check cluster health using prometheus metrics and collect logs using fluentbit to troubleshoot errors.
 
 
-### Security consideration -
+### Security consideration (yet to be implemented) 
 - Scan containers for vulnerabilities
 - Enforce security contexts to prevent privilege escalation by setting:
      runAsNonRoot: true
     allowPrivilegeEscalation: false
 - Use secrets properly using kubernetes secrets.
+  
 
 
 ### Steps to setup
