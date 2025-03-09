@@ -1,4 +1,4 @@
-# Completed
+# Agenda
 Here, in this devops excercise, I have
 - Deployed a fastAPI python app with three endpoints `/hello` , `/ready` and `/alive` in kubernetes.
 - Configured AWS ALB (Apllicaton Load Balancer) for external access.
