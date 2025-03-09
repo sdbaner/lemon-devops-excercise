@@ -58,6 +58,7 @@ jobs:
 
       - name: Check Deployment Status
         run: |
+          aws eks update-kubeconfig --region eu-central-1 --name ${{ env.CLUSTER_NAME }}
           if kubectl rollout status deployment/limo-deployment -n ${{ env.NAMESPACE }} --timeout=60s; then
             echo "Deployment successful"
           else
