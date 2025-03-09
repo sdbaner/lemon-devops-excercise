@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths-ignore:
       - 'lemon-api-charts/templates/deployment.yaml' 
+      - 'terraform/*'
   pull_request:
     branches: [ main ]
 
