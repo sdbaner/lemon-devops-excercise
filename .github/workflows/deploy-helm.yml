@@ -54,4 +54,13 @@ jobs:
           config-files: ${{ env.VALUES_FILE }}
           chart-path: lemon-api-charts/
           namespace: ${{ env.NAMESPACE }}
-          name: v1
+          name: limo
+
+      - name: Check Deployment Status
+        run: |
+          if kubectl rollout status deployment/limo-deployment -n ${{ env.NAMESPACE }} --timeout=60s; then
+            echo "Deployment successful"
+          else
+            echo "Deployment failed"
+            exit 1
+          fi
