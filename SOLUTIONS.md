@@ -118,3 +118,6 @@ Create helm charts and validate
 ### ToDo 
 - Use aws role `terraform-provisioner` to deploy terraform resources to ensure reliabilty and security. This aws role should have programmatic access to all create/access/delete the required resources only. Due to time constraints , I have used the root account to provision the infrastructure which is not a good practice.
 - Use separate variable files for different environments.
+- Install ALB Controller. This requires creating IAM Role for ALB Controller.
+- Deploy ALB Controller Using Helm.
+- Grant access to additional users for the EKS cluster.
