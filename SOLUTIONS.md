@@ -14,7 +14,7 @@ Develop high available and scalable API with kubernetes manifests file
 ## Assumptions/Considerations 
 - This is a simple and small application deployed on kubernetes without secrets/database/pvc etc handling.
 - Considering VPC with two subnets i.e. public and private. The private subnet hosts the eks cluster with no direct inbound access from internet. The public subnet consists of the Internet Gateway to allow internet access, Application Load Balancer to host external facing services and NAT gateway to enable outbound traffic from private subnet.
-- Selecting the Application Load Balancer (ALB) as the workload is HTTP/HTTPS.The ALB is deployed in the public subnets and is accessible from the internet. By default the AWS Load Balancer controller will register targets using "Instance" type and this target will be the Worker Node’s IP and NodePort, implying traffic from the Load Balancer will be forwarded to the Worker Node on the NodePort.
+- Selecting the Application Load Balancer (ALB) as the workload is HTTP/HTTPS. The ALB is deployed in the public subnets and is accessible from the internet. By default the AWS Load Balancer controller will register targets using "Instance" type and this target will be the Worker Node’s IP and NodePort, implying traffic from the Load Balancer will be forwarded to the Worker Node on the NodePort.
 - Objective is to make the application high available and highly scalable. Such situtations can arise in below cases:
   * rise in user base
   * new features/complexities
