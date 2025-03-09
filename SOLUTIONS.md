@@ -74,6 +74,12 @@ Develop high available and scalable API with kubernetes manifests file
     allowPrivilegeEscalation: false
 - Use secrets properly using kubernetes secrets.
   
+## Testing strategegies (I couldnt implement due to time constraints)
+Below are the test measure that I would like to implement
+
+- Perform unit testing to check each component `/hello`,'/alive` and `/ready` return 200
+- Perform load testing with Locust. This is the most important part which caters to high availabilty and scalabilty.
+- Perform application resilience testing with Chaos Monkey
 
 
 ### Steps to setup
@@ -104,13 +110,13 @@ Create infrastructure with Terraform
 
 
 ## Best practices
-- Use modules, wherever possible, to avoid repeatations and maintain upgrades/versions.
-- Use remote backend to store state file to enable collaboration and state locking.
-- Maintain versioning of state file to prevent accidental loss.
-- Leverage IAM roles and policies with least privilege access for Terraform execution and EKS access.
-- Implement tagging across all AWS resources to improve management and cost tracking.
-- Define security groups properly to restrict access to EKS nodes and application workloads.
-- Use Terraform workspaces or directory-based separation for different environments (dev, qa, prod).
+- [x] Use modules, wherever possible, to avoid repeatations and maintain upgrades/versions.
+- [x] Use remote backend to store state file to enable collaboration and state locking.
+- [x] Maintain versioning of state file to prevent accidental loss.
+- [ ] Leverage IAM roles and policies with least privilege access for Terraform execution and EKS access.
+- [ ] Implement tagging across all AWS resources to improve management and cost tracking.
+- [ ] Define security groups properly to restrict access to EKS nodes and application workloads.
+- [ ] Use Terraform workspaces or directory-based separation for different environments (dev, qa, prod).
 
 ### ToDo 
 - Use aws role `terraform-provisioner` to deploy terraform resources to ensure reliabilty and security. This aws role should have programmatic access to all create/access/delete the required resources only. Due to time constraints , I have used the root account to provision the infrastructure which is not a good practice.
