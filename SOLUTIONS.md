@@ -5,31 +5,41 @@ Here, in this devops excercise, I have
 - Packaged application using helm-charts.
 - Github action to deploy application on desired environment
 - Automated provisioning of infrastructure (vpc,subnet,eks with managed nodes) in aws using terraform.
+- There are two parts of the solution 1) kubernetes and 2) Terraform
 
 
-
-# Kubernetes manifests
+# Problem statement 1 
+Develop high available and scalable API with kubernetes manifests file
 
 ## Assumptions/Considerations 
-- This is a simple and small application deployed on kubernetes without secrets/database/pvc etc.
+- This is a simple and small application deployed on kubernetes without secrets/database/pvc etc handling.
 - Considering VPC with two subnets i.e. public and private. The private subnet hosts the eks cluster with no direct inbound access from internet. The public subnet consists of the Internet Gateway to allow internet access, Application Load Balancer to host external facing services and NAT gateway to enable outbound traffic from private subnet.
 - Selecting the Application Load Balancer (ALB) as the workload is HTTP/HTTPS.The ALB is deployed in the public subnets and is accessible from the internet. By default the AWS Load Balancer controller will register targets using "Instance" type and this target will be the Worker Node’s IP and NodePort, implying traffic from the Load Balancer will be forwarded to the Worker Node on the NodePort.
-- High available , high reliable and highly scalable application.
+- Objective is to make the application high available and highly scalable. Such situtations can arise in below cases:
+  * rise in user base
+  * new features/complexities
+  * Increase in content/data volume
+  * expand application in geo locations
 - Considering there are three different eks clusters for production grade application.
 
 
 
-### Ensuring High Availabilty
+### How do I ensure High Availabilty
 - Define Pod disruption budgets to meet SLA.
 - Define Priority classes to ensure pods get priority during scheduling.
+- Deploy the application in multiple cloud regions to reduce latency and improve redundancy.
+- Deploy the eks/vpc with multiple availabilty zones.
 
 
-### Ensuring Scalabilty
-- Define Horizontal pod autoscaler.
-- Combine HPA with Cluster Autoscaler to scale nodes dynamically to handle situations when HPA scales but nodes are full. 
+### How do I ensure Scalabilty
+- Define Horizontal pod autoscaler to add replicas when it reaches a certain cpu/memory threshold
+- Combine HPA with Cluster Autoscaler to scale nodes dynamically. This is useful in situations when HPA scales but nodes are full.
+- Implement Load balancing to distribute traffic across multiple servers to ensure no single server becomes bottleneck.
+- Caching is a technique to store frequently accessed data in-memory (like redis) to reduce the load on the server or database.
+- CDN distributes static assets (images, videos, etc.) closer to users. This can reduce latency and result in faster load times.
 
 
-### Ensuring Reliabilty
+### How do I ensure Reliabilty
 - health checks
 - liveliness probe
 - readiness probe
@@ -59,40 +69,18 @@ Here, in this devops excercise, I have
 - Use secrets properly using kubernetes secrets.
 
 
+### Steps to setup
 
-## Folder structure
-main-api/  
-|-- lemon-api-charts/  
-| |-- Chart.yaml  
-| |-- values-dev.yaml
-| |-- values-qa.yaml
-| |-- values-prod.yaml  
-| |-- templates/  
-| | |-- deployment.yaml  
-│ │ |-- service.yaml
-| | |-- ingress.yaml
-| | |-- pda.yaml
-| | |-- hpa.yaml
-| | |-- network-policy.yaml
-| | |-- _helpers.tpl  
-|-- main-api    
-| |-- Dockerfile  
-| |-- requirements.txt
-| |-- api
-| | |-- main.py
-| |-- tests
-| | |-- test_main.http 
+1. Install AWS CLI and terraform to 
 
-
-
-Build docker image and push to docker hub
+2. Build docker image and push to docker hub
 ```
  docker build -t lemon-api .
  docker run -p 80:80 lemon-api:latest
  docker push sdbaner/lemon-api:latest 
 ```
 
-Create helm charts and validate
+3. Create helm charts and modify the manifests file accordingly. Validate the files.
 ```
  helm create lemon-api-charts
  Validate helm charts
@@ -100,10 +88,12 @@ Create helm charts and validate
 ```
 
 
-# Terraform
+# Problem statement 2
+Create infrastructure with Terraform
+
 - Terraform folder creates EKS on AWS using Terraform.
 - The setup uses terraform modules for AWS VPC , EKS and ALB (to be defined)
-- Github action for manually deploying the infrastructure
+- Github action for manually(for now) deploying the infrastructure
 
 
 ## Best practices
